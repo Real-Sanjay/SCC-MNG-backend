@@ -1,0 +1,59 @@
+const ProgramPlan = require('../models/programPlanModel');
+
+// Create a program plan
+exports.createProgramPlan = async (req, res) => {
+  try {
+    const programPlan = new ProgramPlan(req.body);
+    await programPlan.save();
+    res.status(201).json({ message: 'Program Plan created successfully', programPlan });
+  } catch (err) {
+    res.status(400).json({ message: 'Error creating Program Plan', error: err.message });
+  }
+};
+
+// Get all program plans
+exports.getAllProgramPlans = async (req, res) => {
+  try {
+    const programPlans = await ProgramPlan.find().populate('trainers', 'name email');
+    res.status(200).json(programPlans);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching Program Plans', error: err.message });
+  }
+};
+
+// Get a program plan by ID
+exports.getProgramPlanById = async (req, res) => {
+  try {
+    const programPlan = await ProgramPlan.findById(req.params.id).populate('trainers', 'name email');
+    if (!programPlan) return res.status(404).json({ message: 'Program Plan not found' });
+    res.status(200).json(programPlan);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching Program Plan', error: err.message });
+  }
+};
+
+// Update a program plan
+exports.updateProgramPlan = async (req, res) => {
+  try {
+    const programPlan = await ProgramPlan.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    ).populate('trainers', 'name email');
+    if (!programPlan) return res.status(404).json({ message: 'Program Plan not found' });
+    res.status(200).json({ message: 'Program Plan updated successfully', programPlan });
+  } catch (err) {
+    res.status(400).json({ message: 'Error updating Program Plan', error: err.message });
+  }
+};
+
+// Delete a program plan
+exports.deleteProgramPlan = async (req, res) => {
+  try {
+    const programPlan = await ProgramPlan.findByIdAndDelete(req.params.id);
+    if (!programPlan) return res.status(404).json({ message: 'Program Plan not found' });
+    res.status(200).json({ message: 'Program Plan deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error deleting Program Plan', error: err.message });
+  }
+};
