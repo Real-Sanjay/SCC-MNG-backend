@@ -1,12 +1,20 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const trainerSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  phone: { type: String },
-  topicsHandled: [String],
-  totalHours: { type: Number },
-  createdAt: { type: Date, default: Date.now },
-});
+const trainerSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    businessUnit: { type: String, required: true },
+    expertise: [{ type: String }], 
+    isAvailable: { type: Boolean, default: true },
+    assignedPrograms: [
+      {
+        program: { type: mongoose.Schema.Types.ObjectId, ref: "ProgramPlan" },
+        module: { type: String },
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('Trainer', trainerSchema);
+const Trainer = mongoose.model("Trainer", trainerSchema);
+module.exports = Trainer;

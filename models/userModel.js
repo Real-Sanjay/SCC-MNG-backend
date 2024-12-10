@@ -2,44 +2,17 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      unique: true,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    role: {
-      type: String,
-      enum: ["admin", "trainer", "trainee"],
-      required: true,
-    },
-    contactNumber: {
-      type: String,
-      default: null,
-    },
-    profilePicture: {
-      type: String, // URL to the profile picture
-      default: null,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-    },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ["Admin", "Trainer", "Trainee"], required: true },
+    status: { type: String, enum: ["active", "inactive"], default: "active" },
+    lastLogin: { type: Date, default: null },
   },
   { timestamps: true }
 );
 
-const User = mongoose.model("User", userSchema);
+userSchema.index({ email: 1 }); // Optimized querying by email
 
+const User = mongoose.model("User", userSchema);
 module.exports = User;
