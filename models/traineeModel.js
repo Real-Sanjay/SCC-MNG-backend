@@ -1,17 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const traineeSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  businessUnit: { type: String, required: true },
+  location: { type: String, required: true },
+  hiringBusinessUnit: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  phone: { type: String },
-  department: { type: String },
-  scores: [
-    {
-      topic: { type: String },
-      score: { type: Number },
-    },
-  ],
+  profilePicture: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Trainee', traineeSchema);
+module.exports = mongoose.model("Trainee", traineeSchema);

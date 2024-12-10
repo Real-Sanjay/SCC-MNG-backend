@@ -1,40 +1,57 @@
-const mongoose = require('mongoose');
-
 const programPlanSchema = new mongoose.Schema(
   {
-    moduleName: {
+    module: {
       type: String,
       required: true,
     },
     topics: {
-      type: [String], // Array of topics
+      type: [String], // Array of topics covered in the module
       required: true,
     },
-    date: {
+    dayHours: {
+      type: Number, // Total hours planned per day
+      required: true,
+    },
+    startDate: {
+      type: Date,
+      required: true,
+    },
+    endDate: {
       type: Date,
       required: true,
     },
     time: {
-      type: String, // Example: "10:00 AM - 12:00 PM"
+      type: String, // e.g., "10:00 AM - 12:00 PM"
       required: true,
     },
     trainingMode: {
-      type: String, // Example: "Online" or "Offline"
+      type: String,
+      enum: ["online", "offline", "hybrid"],
       required: true,
     },
-    trainers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Trainer', // Reference to the Trainer model
-        required: true,
-      },
-    ],
-    references: {
-      type: String, // Links or notes
-      default: '',
+    trainer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // Trainer assigned to the program
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "ongoing", "completed"],
+      default: "pending",
+    },
+    referenceNotes: {
+      type: String,
+      default: null,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // Admin who created the program
+      required: true,
     },
   },
-  { timestamps: true } // Automatically add createdAt and updatedAt
+  { timestamps: true }
 );
 
-module.exports = mongoose.model('ProgramPlan', programPlanSchema);
+const ProgramPlan = mongoose.model("ProgramPlan", programPlanSchema);
+
+module.exports = ProgramPlan;
