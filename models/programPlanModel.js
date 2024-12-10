@@ -18,6 +18,7 @@ const programPlanSchema = new mongoose.Schema({
     topics: [{
       topicName: String,
       day: Number,
+      hour: Number,
       startTime: Date,
       endTime: Date,
       trainingMode: String,

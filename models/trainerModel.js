@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const trainerSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
+    Trainername: { type: String, required: true },
     businessUnit: { type: String, required: true },
     expertise: [{ type: String }], 
     isAvailable: { type: Boolean, default: true },
@@ -12,6 +12,9 @@ const trainerSchema = new mongoose.Schema(
         module: { type: String },
       },
     ],
+    noOfHours: {
+      type:Number
+    }
   },
   { timestamps: true }
 );
