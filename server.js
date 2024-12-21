@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const traineeRoutes = require('./routes/traineeRoute');
 const trainerRoutes = require('./routes/trainerRoute');
-const programPlanRoute = require('./routes/programPlanRoute');
+const programRoute = require('./routes/programRoute');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true })); // For parsing application/x-ww
 // Routes
 app.use('/api/trainees', traineeRoutes);
 app.use('/api/trainers', trainerRoutes);
-app.use('/api/program-plans', programPlanRoute);
+app.use('/api/programs', programRoute);
 
 
 // MongoDB Connection
