@@ -6,7 +6,8 @@ const ProgramSchema = new mongoose.Schema({
   dayHour: { type: Number, required: true }, // Total hours for the day
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
-  time: { type: String, required: true }, // Example: '10:00 AM - 12:00 PM'
+  startTime: { type: String, required: true }, // Example: '10:00 AM 
+  endTime: { type: String, required: true }, // Example: '10:00 AM 
   trainingMode: { type: String, enum: ['Online', 'Offline'], required: true },
   trainer: { type: mongoose.Schema.Types.ObjectId, ref: 'Trainer', required: true }, // Reference to Trainer model
   status: { type: String, enum: ['Scheduled', 'Ongoing', 'Completed'], default: 'Scheduled' },
