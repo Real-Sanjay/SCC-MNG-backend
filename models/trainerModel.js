@@ -2,16 +2,12 @@ const mongoose = require("mongoose");
 
 const trainerSchema = new mongoose.Schema(
   {
-    Trainername: { type: String, required: true },
+    trainerName: { type: String, required: true },
     businessUnit: { type: String, required: true },
     expertise: [{ type: String }], 
     isAvailable: { type: Boolean, default: true },
-    assignedPrograms: [
-      {
-        program: { type: mongoose.Schema.Types.ObjectId, ref: "ProgramPlan" },
-        module: { type: String },
-      },
-    ],
+    module: {type:[String], required:true},
+    topics:{type:[String], required:true},
     noOfHours: {
       type:Number
     }

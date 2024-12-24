@@ -4,13 +4,13 @@ const Trainer = require('../models/trainerModel');
 // Create a new program
 exports.createProgram = async (req, res) => {
   try {
-    const { module, topics, dayHour, startDate, endDate, time, trainingMode, trainer, status, referenceNotes } = req.body;
+    const { module, topics, dayHour, startDate, endDate, startTime, endTime, trainingMode, trainer, status, referenceNotes } = req.body;
      
     // Validate trainer exists
-    const trainerExists = await Trainer.findById(trainer);
-    if (!trainerExists) {
-      return res.status(404).json({ error: 'Trainer not found' });
-    }
+    // const trainerExists = await Trainer.findOne();
+    // if (!trainerExists) {
+    //   return res.status(404).json({ error: 'Trainer not found' });
+    // }
 
     const program = new Program({
       module,
@@ -18,7 +18,8 @@ exports.createProgram = async (req, res) => {
       dayHour,
       startDate,
       endDate,
-      time,
+      startTime,
+      endTime,
       trainingMode,
       trainer,
       status,
@@ -57,14 +58,15 @@ exports.getProgramById = async (req, res) => {
 exports.updateProgram = async (req, res) => {
   try {
     const { trainer } = req.body;
+    console.log(req.body);
 
     // Validate trainer if being updated
-    if (trainer) {
-      const trainerExists = await Trainer.findById(trainer);
-      if (!trainerExists) {
-        return res.status(404).json({ error: 'Trainer not found' });
-      }
-    }
+    // if (trainer) {
+    //   const trainerExists = await Trainer.findById(trainer);
+    //   if (!trainerExists) {
+    //     return res.status(404).json({ error: 'Trainer not found' });
+    //   }
+    // }
 
     const program = await Program.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!program) return res.status(404).json({ error: 'Program not found' });
