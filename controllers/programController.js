@@ -86,3 +86,34 @@ exports.deleteProgram = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
+
+// Get programs grouped by trainer
+exports.trainerGroup = async (req, res) => {
+  try {
+    const groupedPrograms = await Program.aggregate([
+      {
+        $group: {
+          _id: "$trainer",
+          modules: { $push: "$module" },
+          topics: { $push: "$topics" },
+          totalDayHour: { $sum: "$dayHour" }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          trainer: "$_id",
+          modules: 1,
+          topics: 1,
+          totalDayHour: 1
+        }
+      }
+    ]);
+
+    res.json(groupedPrograms);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

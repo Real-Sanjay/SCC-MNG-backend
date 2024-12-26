@@ -4,8 +4,8 @@ const trainerSchema = new mongoose.Schema(
   {
     trainerName: { type: String, required: true },
     businessUnit: { type: String, required: true },
-    expertise: [{ type: String }], 
-    isAvailable: { type: Boolean, default: true },
+    status: { type: String, enum:['Available', 'Not Available'], required:true},
+    expertise:{type:[String]},
     module: {type:[String], required:true},
     topics:{type:[String], required:true},
     noOfHours: {

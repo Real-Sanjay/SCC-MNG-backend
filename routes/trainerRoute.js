@@ -4,13 +4,38 @@ const Trainer = require('../models/trainerModel');
 
 // Create a Trainer
 router.post('/', async (req, res) => {
-  try {
-    const trainer = new Trainer(req.body);
-    await trainer.save();
-    res.status(201).json(trainer);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+
+    try {
+      const { trainerName, businessUnit, status, expertise, module, topics, noOfHours } = req.body;
+  
+      // Check if the trainer already exists
+      const existingTrainer = await Trainer.findOne({ trainerName: trainerName.trim() });
+  
+      if (existingTrainer) {
+        return res.status(400).json({ error: 'Trainer name already exists' });
+      }
+  
+      // Create a new trainer
+      const newTrainer = new Trainer({
+        trainerName,
+        businessUnit,
+        status,
+        expertise,
+        module,
+        topics,
+        noOfHours
+      });
+  
+      // Save to the database
+      const savedTrainer = await newTrainer.save();
+  
+      res.status(201).json({
+        message: 'Trainer added successfully',
+        trainer: savedTrainer
+      });
+    } catch (error) {
+      res.status(500).json({ error: 'An error occurred while adding the trainer' });
+    }
 });
 
 // Get All Trainers
