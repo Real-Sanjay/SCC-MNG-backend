@@ -5,6 +5,7 @@ const cors = require('cors');
 const traineeRoutes = require('./routes/traineeRoute');
 const trainerRoutes = require('./routes/trainerRoute');
 const programRoute = require('./routes/programRoute');
+const scoresRoute=require('./routes/scoreCardRoute')
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,6 +20,8 @@ app.use(express.urlencoded({ extended: true })); // For parsing application/x-ww
 app.use('/api/trainees', traineeRoutes);
 app.use('/api/trainers', trainerRoutes);
 app.use('/api/programs', programRoute);
+ //scores
+ app.use('/scores',scoresRoute);
 
 
 // MongoDB Connection
@@ -29,7 +32,3 @@ mongoose
 
 // Start Server
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
-
-
-
-///git check
