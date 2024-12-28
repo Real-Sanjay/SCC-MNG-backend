@@ -4,18 +4,12 @@ const traineeSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     hiringBusinessUnit: { type: String, required: true },
-    location: { type: String },
     joiningDate: { type: Date, required: true },
-    currentStatus: { type: String, enum: ["in training", "completed", "on leave"], default: "in training" },
+    location: { type: String },
     mappedBusinessUnit: { type: String },
-    completedPrograms: [
-      {
-        program: { type: mongoose.Schema.Types.ObjectId, ref: "ProgramPlan" },
-        completionDate: { type: Date },
-      },
-    ],
+    currentStatus: { type: String, enum: ["In Training", "Completed", "On Leave"], default: "In Training" },
   },
-  { timestamps: true }
+  { timestamps: false }
 );
 
 const Trainee = mongoose.model("Trainee", traineeSchema);
