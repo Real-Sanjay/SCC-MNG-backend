@@ -12,20 +12,20 @@ mongoose
 // Register a new user
 const newUser = new User({ 
   employeeID:'123',
-  email: 'admin@solugenix.com',
-  password: 'admin123', // This will be hashed automatically by the pre-save middleware
-  phoneNo:78797,
-  dob:'2002-03-03',
-  role: 'Admin',
+  email: 'sj@solugenix.com',
+  password: 'trainee123', // This will be hashed automatically by the pre-save middleware
+  phoneNo:22840,
+  dob:'2002-04-04',
+  role: 'Trainee',
 });
 
 newUser
   .save()
   .then(() => {
-    console.log('Admin user registered successfully');
+    console.log('Trainee user registered successfully');
     mongoose.disconnect(); // Disconnect after the operation
   })
   .catch((err) => {
-    console.error('Error registering admin user:', err);
+    console.error('Error registering trainee user:', err);
     mongoose.disconnect(); // Disconnect even on error
   });

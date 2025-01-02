@@ -1,34 +1,3 @@
-// require('dotenv').config();
-// const express = require('express');
-// const mongoose = require('mongoose');
-// const cors = require('cors');
-// const traineeRoutes = require('./routes/traineeRoute');
-// const trainerRoutes = require('./routes/trainerRoute');
-// const programRoute = require('./routes/programRoute');
-
-// const app = express();
-// const PORT = process.env.PORT || 3000;
-
-// // Middleware
-// app.use(cors());
-// app.use(express.json()); // For parsing application/json
-// app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
-
-
-// // Routes
-// app.use('/api/trainees', traineeRoutes);
-// app.use('/api/trainers', trainerRoutes);
-// app.use('/api/programs', programRoute);
-
-
-// // MongoDB Connection
-// mongoose
-//   .connect(process.env.MONGO_URI)
-//   .then(() => console.log('MongoDB connected'))
-//   .catch(err => console.error(err));
-
-// // Start Server
-// app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
 
 require('dotenv').config(); // Load environment variables
 const express = require('express');
@@ -38,24 +7,11 @@ const jwt = require('jsonwebtoken');
 const userRoutes = require('./routes/userRoute');
 const traineeRoutes = require('./routes/traineeRoute');
 const trainerRoutes = require('./routes/trainerRoute');
-const programRoute = require('./routes/programRoute');
+const programPlanRoute = require('./routes/programPlanRoute');
+const scoresRoute = require('./routes/scorecardRoute')
 
-// Middleware to authenticate token
-// const authenticateToken = (req, res, next) => {
-//   const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Authorization header
 
-//   if (!token) {
-//     return res.status(403).json({ message: 'Access denied, no token provided' });
-//   }
 
-//   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-//     if (err) {
-//       return res.status(403).json({ message: 'Invalid token' });
-//     }
-//     req.user = user; // Attach user data from token
-//     next(); // Continue to the next middleware or route
-//   });
-// };
 const authenticateToken = (req, res, next) => {
   const token = req.headers['authorization']?.split(' ')[1];
 
@@ -71,6 +27,7 @@ const authenticateToken = (req, res, next) => {
     next();
   });
 };
+
 
 
 // Middleware to check roles
@@ -103,8 +60,16 @@ app.use(express.urlencoded({ extended: true })); // For parsing application/x-ww
 // Routes
 app.use('/api/users', userRoutes); // User routes (login, register)
 app.use('/api/trainees', authenticateToken, authorizeRole(['Trainee', 'Trainer', 'Admin']), traineeRoutes);
-app.use('/api/trainers', authenticateToken, authorizeRole(['Trainer', 'Admin']), trainerRoutes);
-app.use('/api/programs', authenticateToken, authorizeRole(['Trainee', 'Trainer', 'Admin']), programRoute);
+app.use('/api/trainers', authenticateToken, authorizeRole(['Trainer', 'Admin','Trainee']), trainerRoutes);
+app.use('/api/programs',  authenticateToken, authorizeRole(['Trainer', 'Admin','Trainee']), programPlanRoute);
+app.use('/api/scores', authenticateToken, authorizeRole(['Trainee', 'Trainer', 'Admin']), scoresRoute);
+
+
+
+app.get('/api/users/user-details', authenticateToken, (req, res) => {
+  const { email, role } = req.user; // Assuming these are in the JWT
+  res.json({ email, role });
+});
 
 // MongoDB Connection
 mongoose

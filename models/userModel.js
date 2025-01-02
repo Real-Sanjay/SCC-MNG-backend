@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  username: {
+  email: {
     type: String,
     required: true,
     unique: true,
@@ -35,21 +35,21 @@ const UserSchema = new mongoose.Schema({
 });
 
 // Hash the password before saving the user
-UserSchema.pre('save', async function (next) {
-  try {
-    // If the password is already hashed, skip hashing
-    if (!this.isModified('password')) {
-      return next();
-    }
+// UserSchema.pre('save', async function (next) {
+//   try {
+//     // If the password is already hashed, skip hashing
+//     if (!this.isModified('password')) {
+//       return next();
+//     }
 
-    // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (err) {
-    next(err);
-  }
-});
+//     // Hash the password
+//     const salt = await bcrypt.genSalt(10);
+//     this.password = await bcrypt.hash(this.password, salt);
+//     next();
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 // Create a method to compare passwords
 UserSchema.methods.comparePassword = async function (inputPassword) {

@@ -1,4 +1,4 @@
-const Program = require('../models/programModel');
+const Program = require('../models/programPlanModel');
 const Trainer = require('../models/trainerModel');
 
 // Create a new program
