@@ -8,18 +8,18 @@ exports.createProgramPlan = async (data) => {
 
 // Get all program plans
 exports.getAllProgramPlans = async () => {
-  return await ProgramPlan.find().populate('trainers', 'name email');
+  return await ProgramPlan.find().populate('trainer', 'name email');
 };
 
 // Get a program plan by ID
 exports.getProgramPlanById = async (id) => {
-  return await ProgramPlan.findById(id).populate('trainers', 'name email');
+  return await ProgramPlan.findById(id).populate('trainer', 'name email expertise');
 };
 
 // Update a program plan
 exports.updateProgramPlan = async (id, data) => {
   return await ProgramPlan.findByIdAndUpdate(id, data, { new: true, runValidators: true }).populate(
-    'trainers',
+    'trainer',
     'name email'
   );
 };

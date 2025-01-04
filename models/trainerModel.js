@@ -2,21 +2,15 @@ const mongoose = require("mongoose");
 
 const trainerSchema = new mongoose.Schema(
   {
-    Trainername: { type: String, required: true },
+    trainerName: { type: String, required: true }, // Match Angular's camelCase
     businessUnit: { type: String, required: true },
-    expertise: [{ type: String }], 
-    isAvailable: { type: Boolean, default: true },
-    assignedPrograms: [
-      {
-        program: { type: mongoose.Schema.Types.ObjectId, ref: "ProgramPlan" },
-        module: { type: String },
-      },
-    ],
-    noOfHours: {
-      type:Number
-    }
+    status: { type: String, enum: ["Available", "Not Available"], default: "Available" }, // Match Angular's 'status'
+    expertise: [{ type: String }], // Array of strings
+    module: [{ type: String }], // Array of strings
+    topics: [{ type: String }], // Array of strings
+    noOfHours: { type: Number }, // Matches Angular's `noOfHours`
   },
-  { timestamps: true }
+  { timestamps: true } // Includes `createdAt` and `updatedAt`
 );
 
 const Trainer = mongoose.model("Trainer", trainerSchema);
