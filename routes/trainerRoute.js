@@ -9,3 +9,4 @@ router.get('/:id', trainerController.getTrainerById);
 router.put('/:id', trainerController.updateTrainer);
 router.delete('/:id', trainerController.deleteTrainer);
 module.exports = router;
+
