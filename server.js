@@ -31,21 +31,21 @@ const authenticateToken = (req, res, next) => {
 
 
 // Middleware to check roles
-const authorizeRole = (requiredRoles) => {
-  return (req, res, next) => {
-    const userRole = req.user?.role;
+// const authorizeRole = (requiredRoles) => {
+//   return (req, res, next) => {
+//     const userRole = req.user?.role;
 
-    if (!userRole) {
-      return res.status(403).json({ message: 'Access denied, no role found' });
-    }
+//     if (!userRole) {
+//       return res.status(403).json({ message: 'Access denied, no role found' });
+//     }
 
-    if (requiredRoles && !requiredRoles.includes(userRole)) {
-      return res.status(403).json({ message: 'You do not have the required permissions' });
-    }
+//     if (requiredRoles && !requiredRoles.includes(userRole)) {
+//       return res.status(403).json({ message: 'You do not have the required permissions' });
+//     }
 
-    next(); // Continue to the next middleware or route
-  };
-};
+//     next(); // Continue to the next middleware or route
+//   };
+// };
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -57,12 +57,12 @@ app.use(cors({
 app.use(express.json()); // For parsing application/json
 app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 
-// Routes
+// Routes // authorizeRole(['Trainee', 'Trainer', 'Admin']),
 app.use('/api/users', userRoutes); // User routes (login, register)
-app.use('/api/trainees', authenticateToken, authorizeRole(['Trainee', 'Trainer', 'Admin']), traineeRoutes);
-app.use('/api/trainers', authenticateToken, authorizeRole(['Trainer', 'Admin','Trainee']), trainerRoutes);
-app.use('/api/programs',  authenticateToken, authorizeRole(['Trainer', 'Admin','Trainee']), programPlanRoute);
-app.use('/api/scores', authenticateToken, authorizeRole(['Trainee', 'Trainer', 'Admin']), scoresRoute);
+app.use('/api/trainees', authenticateToken, traineeRoutes);
+app.use('/api/trainers', authenticateToken, trainerRoutes);
+app.use('/api/programs',  authenticateToken, programPlanRoute);
+app.use('/api/scores', authenticateToken, scoresRoute);
 
 
 

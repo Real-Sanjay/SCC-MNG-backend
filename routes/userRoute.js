@@ -8,14 +8,6 @@ const User = require('../models/userModel');
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
-  
-    // console.log(
-    //     bcrypt.compare(password, user.password)
-    // )
-    //const hashPassword = await(bcrypt.hash(password, 10));
-    //console.log(password);
-    // console.log(hashPassword);
-    //console.log(user.password);
     if (!user ) {
         
         return res.status(400).json({ message: 'Invalid email' });
@@ -41,13 +33,9 @@ router.post('/register', async (req, res) => {
       if (existingUser) {
         return res.status(400).json({ message: 'User already exists' });
       }
-      console.log(password);
       // Hash password
-      //const hashedPassword = await bcrypt.hash(password, 10);
-    //   bcrypt.genSalt(10, function(err, salt) {bcrypt.hash(password, salt, function(err, hash) // Store hash in your password DB.});});
         const salt = await bcrypt.genSalt(10);           
         const hash = await bcrypt.hash(password, salt);       
-      //const newUser = new User({      password: hash    });
       // Create new user
       const newUser = new User({
         employeeID,
